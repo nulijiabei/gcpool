@@ -10,10 +10,9 @@
 	
 	func main() {
 		
-		// 启动 PCore 服务
-		GO_CONN_POOL = gcpool.NewPool()
-		GO_CONN_POOL.Register("default")
-		GO_CONN_POOL.Start()
+		GO_CONN_POOL = gcpool.NewPool() // 创建连接池
+		GO_CONN_POOL.Register("default") // 注册连接组
+		GO_CONN_POOL.Start() // 启动服务
 		
 		// 创建 HTTP + WebSocket 服务
 		http.Handle("/hello", websocket.Handler(HelloHandler))
