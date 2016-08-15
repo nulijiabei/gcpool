@@ -1,3 +1,4 @@
+<a href="https://godoc.org/github.com/nulijiabei/go-conn-pool"><img src="https://godoc.org/github.com/nulijiabei/go-conn-pool?status.svg" alt="GoDoc"></a>
 
 一个基于WebSocket(or net.Conn)多连接数据推送核心 ... 模型
 
