@@ -21,6 +21,6 @@ func (this *Stream) Add(id string, data interface{}) {
 	this.stream <- [2]interface{}{id, data}
 }
 
-func (this *Stream) Get() chan interface{} {
-	return this.stream
+func (this *Stream) get(callback func(stream chan interface{})) {
+	callback(this.stream)
 }

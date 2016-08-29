@@ -37,9 +37,9 @@
 		id := ws.Request().FormValue("id")
 		
 		// 保存连接
-		GO_CONN_POOL.GetConn("default").Add(device, ws)
+		GO_CONN_POOL.GetConn("default").Add(id, ws)
 		// 断开移除
-		defer GO_CONN_POOL.GetConn("default").Del(device)
+		defer GO_CONN_POOL.GetConn("default").Del(id)
 			
 		// 读取 ... 阻塞
 		r := bufio.NewReader(ws)
