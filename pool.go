@@ -3,7 +3,6 @@ package gcpool
 import (
 	"log"
 
-	"golang.org/x/net/context"
 	"golang.org/x/net/websocket"
 )
 
@@ -16,7 +15,6 @@ type Pool struct {
 }
 
 func NewPool() *Pool {
-	context.Background()
 	pool := new(Pool)
 	pool.conns = make(map[string]*Conn)
 	pool.streams = make(map[string]*Stream)
