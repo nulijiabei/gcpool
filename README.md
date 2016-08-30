@@ -12,6 +12,35 @@ Go WebSocket 连接池（及高效的数据推送） + 后续将支持 net.Conn
 
 -------------
 
+使用场景：
+
+	--- 比如：微信消息推送 --- 
+	// 注册微信用户连接池
+	GO_CONN_POOL.Register("WeiXinUser")
+	// 监听微信用户连接并保持读取 ... 状态
+	// 获取微信用户ID
+	id := ws.Request().FormValue("wxid")
+	// 保存微信连接到连接池
+	GO_CONN_POOL.GetConn("default").Add(id, ws)
+	// 当微信连接断开则移除
+	defer GO_CONN_POOL.GetConn("default").Del(id)	
+	// 读取微信用户发来的数据
+	r := bufio.NewReader(ws)
+	for {
+		// (JSON)
+		data, err := r.ReadBytes('\n')
+		if err != nil {
+			break
+		}
+		// 比如：用户数据包含目标ID及内容
+		wxid = <- (JSON)
+		data = <- (JSON)
+		// 将数据写入到目标用户连接内 ...
+		GO_CONN_POOL.GetStream("WeiXinUser").Add(wxid, data)
+	}
+	
+-------------
+
 	import (
 		gcpool "github.com/nulijiabei/gcpool"
 	)
