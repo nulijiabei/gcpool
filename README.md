@@ -4,7 +4,9 @@
 
 -------------
 
-	gcpool "github.com/nulijiabei/go-conn-pool"
+	import (
+		gcpool "github.com/nulijiabei/go-conn-pool"
+	)
 
 	// 节点连接池
 	var GO_CONN_POOL *gcpool.Pool
