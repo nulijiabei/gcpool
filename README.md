@@ -1,11 +1,17 @@
-<a href="https://godoc.org/github.com/nulijiabei/go-conn-pool"><img src="https://godoc.org/github.com/nulijiabei/go-conn-pool?status.svg" alt="GoDoc"></a>
+<a href="https://godoc.org/github.com/nulijiabei/gcpool"><img src="https://godoc.org/github.com/nulijiabei/gcpool?status.svg" alt="GoDoc"></a>
 
-一个基于WebSocket(or net.Conn)多连接数据推送核心 ... 模型
+Go WebSocket 连接池（及高效的数据推送） + 后续将支持 net.Conn
+
+-------------
+
+当注册连接池时会自动创建对应的的流池
+向连接池中添加连接时需要为该链接定义唯一名称 ... 
+如需向连接池中的连接写入数据时, 只需向流中唯一名称写入数据 ...
 
 -------------
 
 	import (
-		gcpool "github.com/nulijiabei/go-conn-pool"
+		gcpool "github.com/nulijiabei/gcpool"
 	)
 
 	// 节点连接池
@@ -13,9 +19,11 @@
 	
 	func main() {
 		
-		GO_CONN_POOL = gcpool.NewPool() // 创建连接池
-		GO_CONN_POOL.Register("default") // 注册连接组
+		// ------------- 关键 -------------------- // 
+		GO_CONN_POOL = gcpool.NewPool() // 创建对象
+		GO_CONN_POOL.Register("default") // 注册连接池
 		GO_CONN_POOL.Start() // 启动服务
+		// ------------- -- -------------------- // 
 		
 		// 创建 HTTP + WebSocket 服务
 		http.Handle("/hello", websocket.Handler(HelloHandler))
@@ -38,11 +46,13 @@
 		// 作为唯一标识符
 		id := ws.Request().FormValue("id")
 		
+		// ------------- 关键 -------------------- // 
 		// 保存连接
 		GO_CONN_POOL.GetConn("default").Add(id, ws)
 		// 断开移除
 		defer GO_CONN_POOL.GetConn("default").Del(id)
-			
+		// ------------- -- -------------------- // 
+					
 		// 读取 ... 阻塞
 		r := bufio.NewReader(ws)
 		for {
