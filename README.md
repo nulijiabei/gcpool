@@ -14,10 +14,14 @@ Go WebSocket 连接池（及高效的数据推送） + 后续将支持 net.Conn
 
 使用场景：
 
-	--- 比如：微信消息推送 --- 
+	比如：微信消息推送 ...
+	
+	初始化 ...
 	// 注册微信用户连接池
 	GO_CONN_POOL.Register("WeiXinUser")
-	// 监听微信用户连接并保持读取 ... 状态
+	...
+	
+	当一个微信用户连接时 ...
 	// 获取微信用户ID
 	id := ws.Request().FormValue("wxid")
 	// 保存微信连接到连接池
@@ -38,6 +42,7 @@ Go WebSocket 连接池（及高效的数据推送） + 后续将支持 net.Conn
 		// 将数据写入到目标用户连接内 ...
 		GO_CONN_POOL.GetStream("WeiXinUser").Add(wxid, data)
 	}
+	...
 	
 -------------
 
