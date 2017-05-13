@@ -25,9 +25,9 @@ Go WebSocket 连接池（及高效的数据推送） + 后续将支持 net.Conn
 	// 获取微信用户ID
 	id := ws.Request().FormValue("wxid")
 	// 保存微信连接到连接池
-	GO_CONN_POOL.GetConn("default").Add(id, ws)
+	GO_CONN_POOL.GetConn("WeiXinUser").Add(id, ws)
 	// 当微信连接断开则移除
-	defer GO_CONN_POOL.GetConn("default").Del(id)	
+	defer GO_CONN_POOL.GetConn("WeiXinUser").Del(id)	
 	// 读取微信用户发来的数据
 	r := bufio.NewReader(ws)
 	for {
